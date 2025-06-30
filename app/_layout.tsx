@@ -71,7 +71,7 @@ export default function RootLayout() {
     'Inter-Bold': Inter_700Bold,
   });
 
-  const [appReady, setAppReady] = useState(false);
+  const [appInitialized, setAppInitialized] = useState(false);
   const [showCustomSplash, setShowCustomSplash] = useState(true);
 
   // Request location permission on app startup with proper error handling
@@ -120,37 +120,41 @@ export default function RootLayout() {
     });
   }, []);
 
-  // Hide native splash screen and mark app as ready when fonts are loaded
+  // Initialize app only once when fonts are loaded
   useEffect(() => {
-    const hideSplashScreen = async () => {
+    const initializeApp = async () => {
       try {
         if (fontsLoaded || fontError) {
+          // Hide the native splash screen
           await SplashScreen.hideAsync();
-          setAppReady(true);
+          setAppInitialized(true);
         }
       } catch (error) {
-        console.error('❌ Error hiding splash screen:', error);
+        console.error('❌ Error initializing app:', error);
         // Continue anyway, don't block the app
-        setAppReady(true);
+        setAppInitialized(true);
       }
     };
 
-    hideSplashScreen().catch((error) => {
-      console.error('❌ Failed to hide splash screen:', error);
-      setAppReady(true);
-    });
-  }, [fontsLoaded, fontError]);
+    if (!appInitialized) {
+      initializeApp().catch((error) => {
+        console.error('❌ Failed to initialize app:', error);
+        setAppInitialized(true);
+      });
+    }
+  }, [fontsLoaded, fontError, appInitialized]);
 
   // Handle custom splash screen completion
   const handleSplashComplete = () => {
     setShowCustomSplash(false);
   };
 
-  // Show custom splash screen while app is initializing
-  if (!appReady || showCustomSplash) {
+  // Show custom splash screen only during initial app load
+  if (!appInitialized || showCustomSplash) {
     return <CustomSplashScreen onAnimationComplete={handleSplashComplete} />;
   }
 
+  // App is ready - render the main navigation
   return (
     <SafeAreaProvider>
       <ThemeProvider>
