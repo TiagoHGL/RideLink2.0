@@ -21,6 +21,10 @@ import { SplashScreen as CustomSplashScreen } from '@/components/SplashScreen';
 
 SplashScreen.preventAutoHideAsync();
 
+// Module-level variables to track app initialization state
+let hasAppBeenInitialized = false;
+let hasCustomSplashBeenShown = false;
+
 // Global error handlers
 if (Platform.OS === 'web') {
   // Handle unhandled promise rejections on web
@@ -71,8 +75,7 @@ export default function RootLayout() {
     'Inter-Bold': Inter_700Bold,
   });
 
-  const [isAppReady, setIsAppReady] = useState(false);
-  const [showInitialSplash, setShowInitialSplash] = useState(true);
+  const [isAppReady, setIsAppReady] = useState(hasAppBeenInitialized);
 
   // Request location permission on app startup with proper error handling
   useEffect(() => {
@@ -114,10 +117,12 @@ export default function RootLayout() {
       }
     };
 
-    // Execute with proper error handling
-    requestLocationPermission().catch((error) => {
-      console.error('❌ Failed to request location permission:', error);
-    });
+    // Only run location permission request if app hasn't been initialized
+    if (!hasAppBeenInitialized) {
+      requestLocationPermission().catch((error) => {
+        console.error('❌ Failed to request location permission:', error);
+      });
+    }
   }, []);
 
   // Initialize app only once when fonts are loaded
@@ -127,37 +132,43 @@ export default function RootLayout() {
         if (fontsLoaded || fontError) {
           // Hide the native splash screen
           await SplashScreen.hideAsync();
+          
+          // Mark app as initialized
+          hasAppBeenInitialized = true;
           setIsAppReady(true);
         }
       } catch (error) {
         console.error('❌ Error initializing app:', error);
         // Continue anyway, don't block the app
+        hasAppBeenInitialized = true;
         setIsAppReady(true);
       }
     };
 
-    if (!isAppReady && (fontsLoaded || fontError)) {
+    // Only initialize if not already done
+    if (!hasAppBeenInitialized && (fontsLoaded || fontError)) {
       initializeApp().catch((error) => {
         console.error('❌ Failed to initialize app:', error);
+        hasAppBeenInitialized = true;
         setIsAppReady(true);
       });
     }
-  }, [fontsLoaded, fontError, isAppReady]);
+  }, [fontsLoaded, fontError]);
 
-  // Handle custom splash screen completion - only show on initial load
+  // Handle custom splash screen completion
   const handleSplashComplete = () => {
-    setShowInitialSplash(false);
+    hasCustomSplashBeenShown = true;
+    // Force a re-render to show the main app
+    setIsAppReady(true);
   };
 
-  // Show custom splash screen ONLY during the very first app load
-  // Once fonts are loaded and app is ready, but still showing initial splash
+  // Show nothing while fonts are loading (native splash screen is visible)
   if (!isAppReady) {
-    // Still loading fonts or initializing - don't show anything yet
     return null;
   }
 
-  if (showInitialSplash) {
-    // App is ready but we want to show our custom splash animation once
+  // Show custom splash screen only if it hasn't been shown yet
+  if (!hasCustomSplashBeenShown) {
     return <CustomSplashScreen onAnimationComplete={handleSplashComplete} />;
   }
 
