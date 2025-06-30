@@ -71,8 +71,8 @@ export default function RootLayout() {
     'Inter-Bold': Inter_700Bold,
   });
 
-  const [appInitialized, setAppInitialized] = useState(false);
-  const [showCustomSplash, setShowCustomSplash] = useState(true);
+  const [isAppReady, setIsAppReady] = useState(false);
+  const [showInitialSplash, setShowInitialSplash] = useState(true);
 
   // Request location permission on app startup with proper error handling
   useEffect(() => {
@@ -127,34 +127,41 @@ export default function RootLayout() {
         if (fontsLoaded || fontError) {
           // Hide the native splash screen
           await SplashScreen.hideAsync();
-          setAppInitialized(true);
+          setIsAppReady(true);
         }
       } catch (error) {
         console.error('❌ Error initializing app:', error);
         // Continue anyway, don't block the app
-        setAppInitialized(true);
+        setIsAppReady(true);
       }
     };
 
-    if (!appInitialized) {
+    if (!isAppReady && (fontsLoaded || fontError)) {
       initializeApp().catch((error) => {
         console.error('❌ Failed to initialize app:', error);
-        setAppInitialized(true);
+        setIsAppReady(true);
       });
     }
-  }, [fontsLoaded, fontError, appInitialized]);
+  }, [fontsLoaded, fontError, isAppReady]);
 
-  // Handle custom splash screen completion
+  // Handle custom splash screen completion - only show on initial load
   const handleSplashComplete = () => {
-    setShowCustomSplash(false);
+    setShowInitialSplash(false);
   };
 
-  // Show custom splash screen only during initial app load
-  if (!appInitialized || showCustomSplash) {
+  // Show custom splash screen ONLY during the very first app load
+  // Once fonts are loaded and app is ready, but still showing initial splash
+  if (!isAppReady) {
+    // Still loading fonts or initializing - don't show anything yet
+    return null;
+  }
+
+  if (showInitialSplash) {
+    // App is ready but we want to show our custom splash animation once
     return <CustomSplashScreen onAnimationComplete={handleSplashComplete} />;
   }
 
-  // App is ready - render the main navigation
+  // App is fully ready and splash has completed - render the main navigation
   return (
     <SafeAreaProvider>
       <ThemeProvider>
