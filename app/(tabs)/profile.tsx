@@ -25,7 +25,7 @@ import Animated, {
 const { width: screenWidth } = Dimensions.get('window');
 
 export default function ProfileScreen() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const styles = useThemedStyles(createStyles);
   const insets = useSafeAreaInsets();
   const { user, logout, updateProfile } = useAuth();
@@ -80,7 +80,10 @@ export default function ProfileScreen() {
   };
 
   const formatDate = (date: Date) => {
-    return date.toLocaleDateString(undefined, {
+    // Get the appropriate locale based on the current language
+    const locale = language === 'pt' ? 'pt-BR' : language === 'es' ? 'es-ES' : 'en-US';
+    
+    return date.toLocaleDateString(locale, {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
