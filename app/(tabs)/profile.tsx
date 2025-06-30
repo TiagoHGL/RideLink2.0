@@ -51,7 +51,7 @@ export default function ProfileScreen() {
 
   const handleSave = async () => {
     if (!editedName.trim()) {
-      Alert.alert('Error', 'Name cannot be empty');
+      Alert.alert(t('alert.error'), t('profile.nameRequired'));
       return;
     }
 
@@ -62,7 +62,7 @@ export default function ProfileScreen() {
       setIsEditing(false);
       editScale.value = withSpring(1);
     } else {
-      Alert.alert('Error', result.error || 'Failed to update profile');
+      Alert.alert(t('alert.error'), result.error || t('profile.updateError'));
     }
     
     setIsLoading(false);
@@ -70,17 +70,17 @@ export default function ProfileScreen() {
 
   const handleLogout = () => {
     Alert.alert(
-      'Sign Out',
-      'Are you sure you want to sign out?',
+      t('profile.signOut'),
+      t('profile.signOutConfirm'),
       [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Sign Out', style: 'destructive', onPress: logout },
+        { text: t('alert.cancel'), style: 'cancel' },
+        { text: t('profile.signOut'), style: 'destructive', onPress: logout },
       ]
     );
   };
 
   const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleDateString(undefined, {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -95,7 +95,7 @@ export default function ProfileScreen() {
     <GradientBackground>
       <View style={[styles.container, { paddingTop: insets.top }]}>
         <View style={styles.header}>
-          <Text style={styles.title}>Profile</Text>
+          <Text style={styles.title}>{t('nav.profile')}</Text>
           <TouchableOpacity
             style={styles.logoutButton}
             onPress={handleLogout}
@@ -131,7 +131,7 @@ export default function ProfileScreen() {
                     style={styles.nameInput}
                     value={editedName}
                     onChangeText={setEditedName}
-                    placeholder="Enter your name"
+                    placeholder={t('profile.enterName')}
                     placeholderTextColor={styles.placeholderColor.color}
                     autoFocus
                   />
@@ -175,14 +175,14 @@ export default function ProfileScreen() {
 
           {/* Account Details */}
           <View style={styles.detailsCard}>
-            <Text style={styles.sectionTitle}>Account Details</Text>
+            <Text style={styles.sectionTitle}>{t('profile.accountDetails')}</Text>
             
             <View style={styles.detailItem}>
               <View style={styles.detailIcon}>
                 <Calendar size={20} color={styles.calendarIconColor.color} />
               </View>
               <View style={styles.detailContent}>
-                <Text style={styles.detailLabel}>Member Since</Text>
+                <Text style={styles.detailLabel}>{t('profile.memberSince')}</Text>
                 <Text style={styles.detailValue}>{formatDate(user.createdAt)}</Text>
               </View>
             </View>
@@ -192,7 +192,7 @@ export default function ProfileScreen() {
                 <Clock size={20} color={styles.clockIconColor.color} />
               </View>
               <View style={styles.detailContent}>
-                <Text style={styles.detailLabel}>Last Sign In</Text>
+                <Text style={styles.detailLabel}>{t('profile.lastSignIn')}</Text>
                 <Text style={styles.detailValue}>{formatDate(user.lastLoginAt)}</Text>
               </View>
             </View>
@@ -202,10 +202,10 @@ export default function ProfileScreen() {
                 <Shield size={20} color={styles.shieldIconColor.color} />
               </View>
               <View style={styles.detailContent}>
-                <Text style={styles.detailLabel}>Account Status</Text>
+                <Text style={styles.detailLabel}>{t('profile.accountStatus')}</Text>
                 <View style={styles.statusContainer}>
                   <View style={styles.statusDot} />
-                  <Text style={styles.statusText}>Active</Text>
+                  <Text style={styles.statusText}>{t('profile.active')}</Text>
                 </View>
               </View>
             </View>
@@ -213,20 +213,20 @@ export default function ProfileScreen() {
 
           {/* Stats Card */}
           <View style={styles.statsCard}>
-            <Text style={styles.sectionTitle}>Your RideLink Stats</Text>
+            <Text style={styles.sectionTitle}>{t('profile.ridelinkStats')}</Text>
             
             <View style={styles.statsGrid}>
               <View style={styles.statItem}>
                 <Text style={styles.statNumber}>0</Text>
-                <Text style={styles.statLabel}>Rides Booked</Text>
+                <Text style={styles.statLabel}>{t('profile.ridesBooked')}</Text>
               </View>
               <View style={styles.statItem}>
                 <Text style={styles.statNumber}>{user.id === '1' ? '3' : '0'}</Text>
-                <Text style={styles.statLabel}>Favorites</Text>
+                <Text style={styles.statLabel}>{t('nav.favorites')}</Text>
               </View>
               <View style={styles.statItem}>
                 <Text style={styles.statNumber}>0</Text>
-                <Text style={styles.statLabel}>Apps Used</Text>
+                <Text style={styles.statLabel}>{t('profile.appsUsed')}</Text>
               </View>
             </View>
           </View>
@@ -234,9 +234,9 @@ export default function ProfileScreen() {
           {/* Demo Notice */}
           {user.email === 'demo@ridelink.com' && (
             <View style={styles.demoNotice}>
-              <Text style={styles.demoTitle}>Demo Account</Text>
+              <Text style={styles.demoTitle}>{t('profile.demoAccount')}</Text>
               <Text style={styles.demoText}>
-                You're using a demo account. Some features may be limited or simulated.
+                {t('profile.demoAccountDescription')}
               </Text>
             </View>
           )}

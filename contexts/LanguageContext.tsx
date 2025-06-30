@@ -151,6 +151,23 @@ const translations: Record<Language, Record<string, string>> = {
     'alert.openSettings': 'Open Settings',
     'alert.openPlayStore': 'Open Play Store',
     
+    // Profile Screen
+    'profile.accountDetails': 'Account Details',
+    'profile.memberSince': 'Member Since',
+    'profile.lastSignIn': 'Last Sign In',
+    'profile.accountStatus': 'Account Status',
+    'profile.active': 'Active',
+    'profile.ridelinkStats': 'Your RideLink Stats',
+    'profile.ridesBooked': 'Rides Booked',
+    'profile.appsUsed': 'Apps Used',
+    'profile.demoAccount': 'Demo Account',
+    'profile.demoAccountDescription': 'You\'re using a demo account. Some features may be limited or simulated.',
+    'profile.signOut': 'Sign Out',
+    'profile.signOutConfirm': 'Are you sure you want to sign out?',
+    'profile.enterName': 'Enter your name',
+    'profile.nameRequired': 'Name cannot be empty',
+    'profile.updateError': 'Failed to update profile',
+    
     // Favorites Screen
     'favorites.title': 'Favorites',
     'favorites.places': 'Places',
@@ -338,6 +355,23 @@ const translations: Record<Language, Record<string, string>> = {
     'alert.openSettings': 'Abrir Configurações',
     'alert.openPlayStore': 'Abrir Play Store',
     
+    // Profile Screen
+    'profile.accountDetails': 'Detalhes da Conta',
+    'profile.memberSince': 'Membro Desde',
+    'profile.lastSignIn': 'Último Acesso',
+    'profile.accountStatus': 'Status da Conta',
+    'profile.active': 'Ativo',
+    'profile.ridelinkStats': 'Suas Estatísticas RideLink',
+    'profile.ridesBooked': 'Corridas Reservadas',
+    'profile.appsUsed': 'Apps Usados',
+    'profile.demoAccount': 'Conta Demo',
+    'profile.demoAccountDescription': 'Você está usando uma conta demo. Alguns recursos podem ser limitados ou simulados.',
+    'profile.signOut': 'Sair',
+    'profile.signOutConfirm': 'Tem certeza de que deseja sair?',
+    'profile.enterName': 'Digite seu nome',
+    'profile.nameRequired': 'O nome não pode estar vazio',
+    'profile.updateError': 'Falha ao atualizar o perfil',
+    
     // Favorites Screen
     'favorites.title': 'Favoritos',
     'favorites.places': 'Locais',
@@ -524,6 +558,23 @@ const translations: Record<Language, Record<string, string>> = {
     'alert.openBrowser': 'Abrir Navegador',
     'alert.openSettings': 'Abrir Configuración',
     'alert.openPlayStore': 'Abrir Play Store',
+    
+    // Profile Screen
+    'profile.accountDetails': 'Detalles de la Cuenta',
+    'profile.memberSince': 'Miembro Desde',
+    'profile.lastSignIn': 'Último Acceso',
+    'profile.accountStatus': 'Estado de la Cuenta',
+    'profile.active': 'Activo',
+    'profile.ridelinkStats': 'Tus Estadísticas RideLink',
+    'profile.ridesBooked': 'Viajes Reservados',
+    'profile.appsUsed': 'Apps Usadas',
+    'profile.demoAccount': 'Cuenta Demo',
+    'profile.demoAccountDescription': 'Estás usando una cuenta demo. Algunas funciones pueden estar limitadas o simuladas.',
+    'profile.signOut': 'Cerrar Sesión',
+    'profile.signOutConfirm': '¿Estás seguro de que quieres cerrar sesión?',
+    'profile.enterName': 'Ingresa tu nombre',
+    'profile.nameRequired': 'El nombre no puede estar vacío',
+    'profile.updateError': 'Error al actualizar el perfil',
     
     // Favorites Screen
     'favorites.title': 'Favoritos',
