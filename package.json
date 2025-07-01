@@ -1,8 +1,29 @@
 {
-  "name": "bolt-expo-starter",
+  "name": "ridelink-launcher",
   "main": "expo-router/entry",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
+  "description": "A React Native Expo app that allows users to compare and open ride-sharing apps with their route pre-filled",
+  "keywords": [
+    "react-native",
+    "expo",
+    "ride-sharing",
+    "uber",
+    "lyft",
+    "transportation",
+    "mobile-app",
+    "cross-platform"
+  ],
+  "author": "RideLink Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/ridelink-launcher.git"
+  },
+  "homepage": "https://github.com/your-username/ridelink-launcher#readme",
+  "bugs": {
+    "url": "https://github.com/your-username/ridelink-launcher/issues"
+  },
   "scripts": {
     "dev": "EXPO_NO_TELEMETRY=1 expo start",
     "build:web": "expo export --platform web",
